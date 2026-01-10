@@ -658,6 +658,16 @@ static int zlog_conf_parse_line(zlog_conf_t * a_conf, char *line, int *section)
 				a_conf->fsync_period = 0;
 			}
 
+			if (a_conf->rotater) {
+				zlog_rotater_del(a_conf->rotater);
+				a_conf->rotater = NULL;
+			}
+
+			if (a_conf->default_format) {
+				zlog_format_del(a_conf->default_format);
+				a_conf->default_format = NULL;
+			}
+
 			/* now build rotater and default_format
 			 * from the unchanging global setting,
 			 * for zlog_rule_new() */
