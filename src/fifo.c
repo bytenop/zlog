@@ -29,6 +29,16 @@ static unsigned round_up_to_power_of_2(unsigned n)
     return n;
 }
 
+#ifdef __APPLE__
+
+static int memfd_create(const char *name, unsigned int flags) {
+    (void)name;
+    (void)flags;
+    return -1;
+}
+
+#endif
+
 struct fifo *fifo_create(unsigned int size)
 {
     unsigned head_size = sizeof(struct fifo);
