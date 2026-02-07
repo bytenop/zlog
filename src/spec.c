@@ -324,10 +324,13 @@ static int zlog_spec_write_tid_long(zlog_spec_t * a_spec, zlog_thread_t * a_thre
 
 static int zlog_spec_write_ktid(zlog_spec_t * a_spec, zlog_thread_t * a_thread, zlog_buf_t * a_buf, struct zlog_output_data *data)
 {
-
+#if defined __linux__ || __APPLE__
 	/* don't need to get ktid again, as tmap_new_thread fetched it already */
 	/* and fork not change tid */
 	return zlog_buf_append(a_buf, a_thread->event->ktid_str, a_thread->event->ktid_str_len);
+#else
+	return 0;
+#endif
 }
 
 static int zlog_spec_write_level_lowercase(zlog_spec_t * a_spec, zlog_thread_t * a_thread, zlog_buf_t * a_buf, struct zlog_output_data *data)
